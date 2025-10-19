@@ -16,11 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# 1. Import our new serializer
-from api.serializers import MyTokenObtainPairSerializer
-
-# 2. Import the *view*
+# 1. Use the original VIEW again
 from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
     TokenRefreshView,
 )
 
@@ -28,8 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
 
-    # 3. Use our custom serializer in the TokenObtainPairView
-    path('api/token/', MyTokenObtainPairSerializer.as_view(), name='token_obtain_pair'),
+    # 2. Point back to the original TokenObtainPairView
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
